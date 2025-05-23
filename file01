@@ -1,0 +1,34 @@
+import os
+import shutil
+import datetime
+import glob
+import zipfile
+
+# Configuration
+log_folder = "./logs"            # Folder containing log files
+archive_folder = "./archive"     # Where archives will be stored
+log_pattern = "*.log"            # Pattern to match log files
+
+# Create archive folder if it doesn't exist
+os.makedirs(archive_folder, exist_ok=True)
+
+# Get current date for archive name
+date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+
+# Archive file name
+archive_name = f"logs_archive_{date_str}.zip"
+archive_path = os.path.join(archive_folder, archive_name)
+
+# Find all log files matching the pattern
+log_files = glob.glob(os.path.join(log_folder, log_pattern))
+
+if not log_files:
+    print("No log files to archive.")
+else:
+    # Create a zip archive and add log files
+    with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for log_file in log_files:
+            archive.write(log_file, os.path.basename(log_file))
+            os.remove(log_file)  # Remove the original log file after archiving
+
+    print(f"Archived {len(log_files)} log files to {archive_path}")
