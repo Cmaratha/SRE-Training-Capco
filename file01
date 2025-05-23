@@ -23,7 +23,7 @@ archive_path = os.path.join(archive_folder, archive_name)
 log_files = glob.glob(os.path.join(log_folder, log_pattern))
 
 if not log_files:
-    print("No log files to archive.")
+    print("No log files to archive - Testing. Helllllllo")
 else:
     # Create a zip archive and add log files
     with zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED) as archive:
